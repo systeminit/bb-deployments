@@ -70,11 +70,7 @@ kind: Ingress
 metadata:
   name: scheduler
   namespace: buildbarn
-  annotations:
-    alb.ingress.kubernetes.io/scheme: internal
-    alb.ingress.kubernetes.io/target-type: ip
 spec:
-  ingressClassName: alb
   rules:
   - http:
       paths:
@@ -84,4 +80,4 @@ spec:
           service:
             name: scheduler
             port: 
-              number: 7982
+              name: http

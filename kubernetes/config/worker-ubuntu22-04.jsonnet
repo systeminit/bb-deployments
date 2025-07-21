@@ -13,21 +13,24 @@ local common = import 'common.libsonnet';
       buildDirectoryPath: '/worker/build',
       cacheDirectoryPath: '/worker/cache',
       maximumCacheFileCount: 10000,
-      maximumCacheSizeBytes: 1024 * 1024 * 1024,
+      maximumCacheSizeBytes: 1024 * 1024 * 1024 * 1024,
       cacheReplacementPolicy: 'LEAST_RECENTLY_USED',
     },
     runners: [{
       endpoint: { address: 'unix:///worker/runner' },
       concurrency: 8,
+      instanceNamePrefix: 'main',
       platform: {
         properties: [
-          { name: 'OSFamily', value: 'linux' },
-          { name: 'container-image', value: 'docker://ghcr.io/catthehacker/ubuntu:act-22.04@sha256:5f9c35c25db1d51a8ddaae5c0ba8d3c163c5e9a4a6cc97acd409ac7eae239448' },
         ],
       },
       workerId: {
         pod: std.extVar('POD_NAME'),
         node: std.extVar('NODE_NAME'),
+      },
+      environment_variables: {
+        PATH: '/bin:/usr/bin:/usr/local/bin',
+        HOME: '/root/',
       },
     }],
   }],
@@ -35,7 +38,7 @@ local common = import 'common.libsonnet';
   outputUploadConcurrency: 11,
   directoryCache: {
     maximumCount: 1000,
-    maximumSizeBytes: 1000 * 1024,
+    maximumSizeBytes: 1000 * 1024 * 1024,
     cacheReplacementPolicy: 'LEAST_RECENTLY_USED',
   },
 }

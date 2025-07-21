@@ -34,7 +34,6 @@ spec:
                 path: common.libsonnet
               - key: frontend.jsonnet
                 path: frontend.jsonnet
-
 ---
 apiVersion: v1
 kind: Service
@@ -52,3 +51,24 @@ spec:
   selector:
     app: frontend
   type: LoadBalancer
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: frontend
+  namespace: buildbarn
+  annotations:
+    alb.ingress.kubernetes.io/scheme: internal
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/backend-protocol-version: GRPC
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: scheduler
+            port: 
+              number: 8980

@@ -34,8 +34,8 @@
       },
     },
   },
-  browserUrl: 'http://bb-browser.example.com:80',
-  maximumMessageSizeBytes: 2 * 1024 * 1024,
+  browserUrl: 'localhost:7982',
+  maximumMessageSizeBytes: 1024 * 1024 * 1024 * 1024,
   global: {
     diagnosticsHttpServer: {
       httpServers: [{
